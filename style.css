@@ -1,13 +1,18 @@
-body {
+body{
     background-color: rgba(222, 184, 135, 0.652);
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+   
+}
+*{
+     margin: 0%;
+    padding: 0%;
 }
 .container {
     background-color: darkslateblue;
     width: 70%;
     min-height: 80%;
     position: absolute;
-    top: 100px;
+    top: 130px;
     left: 210px;
     display: flex;
     flex-direction: column;
@@ -26,6 +31,9 @@ body {
     font: bolder;
     font-size: larger;
     color: white;
+}
+header{
+    width: 98.7%; height: 50px; background-color: darkslateblue;color: white;margin: 0%;padding: 10px;font-size: x-large; text-align: center;
 }
 .container input:focus {
     outline: none;
