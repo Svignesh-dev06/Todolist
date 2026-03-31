@@ -6,7 +6,7 @@ let emptyState = document.getElementById("empty-state");
 
 let store = JSON.parse(localStorage.getItem("stores") || "[]");
 
-// Function to render todos
+// display the todo items
 function renderTodos() {
     results.innerHTML = "";
     
@@ -28,7 +28,7 @@ function renderTodos() {
         results.appendChild(todoItem);
     });
     
-    // Show/hide empty state
+    // empty show or hide 
     if (store.length === 0) {
         emptyState.style.display = "block";
     } else {
@@ -36,10 +36,9 @@ function renderTodos() {
     }
 }
 
-// Render initial todos
-renderTodos();
 
-// Add button click event
+renderTodos();
+//Add button click event
 btn.addEventListener("click", function () {
     let value = input.value.trim();
 
@@ -55,7 +54,7 @@ btn.addEventListener("click", function () {
     input.focus();
 });
 
-// Delete todo on click
+// Delete button click event
 results.addEventListener("click", function (event) {
     if (event.target.classList.contains("todo-delete")) {
         let value = event.target.parentElement.querySelector(".todo-text").textContent;
@@ -67,9 +66,10 @@ results.addEventListener("click", function (event) {
     }
 });
 
-// Enter key to add
-input.addEventListener("keypress", function (e) {
-    if (e.key === "Enter") {
+
+//enter key press event
+input.addEventListener("keypress" , (e) =>{
+    if(e.key === "Enter"){
         btn.click();
     }
-});
+})
