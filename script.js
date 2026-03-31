@@ -1,57 +1,75 @@
-//selecting the all html tags
+// Selecting the HTML elements
+let input = document.getElementById("input-value");
+let btn = document.getElementById("add-btn");
+let results = document.getElementById("result");
+let emptyState = document.getElementById("empty-state");
 
-let input = document.getElementById("input-value")
-let btn = document.getElementById("add-btn")
-let results = document.getElementById("result")
+let store = JSON.parse(localStorage.getItem("stores") || "[]");
 
-let store = JSON.parse(localStorage.getItem("stores") || "[]")
-
-
-store.forEach(function (item) {
-    let h1 = document.createElement("h1")
-    h1.style.color = "white"
-    h1.textContent = item
-    h1.style.textDecoration = "underline"
-    results.append(h1)
-    h1.style.cursor = "pointer"
-
-})
-btn.addEventListener("click", function () {
-
-    let value = input.value
-
-    if (value == "") {
-        alert("Type Something Bro 😉")
-        return
+// Function to render todos
+function renderTodos() {
+    results.innerHTML = "";
+    
+    store.forEach(function (item) {
+        let todoItem = document.createElement("div");
+        todoItem.className = "todo-item";
+        
+        let textSpan = document.createElement("span");
+        textSpan.className = "todo-text";
+        textSpan.textContent = item;
+        
+        let deleteBtn = document.createElement("span");
+        deleteBtn.className = "todo-delete";
+        deleteBtn.textContent = "✕";
+        
+        todoItem.appendChild(textSpan);
+        todoItem.appendChild(deleteBtn);
+        
+        results.appendChild(todoItem);
+    });
+    
+    // Show/hide empty state
+    if (store.length === 0) {
+        emptyState.style.display = "block";
+    } else {
+        emptyState.style.display = "none";
     }
-    let h1 = document.createElement("h1")
-    h1.style.color = "white"
-    h1.textContent = value
-    h1.style.textDecoration = "underline"
-    h1.style.cursor = "pointer"
-    results.append(h1)
+}
 
-    store.push(value)
-    localStorage.setItem("stores", JSON.stringify(store))
+// Render initial todos
+renderTodos();
 
-    input.value = ""
-})
+// Add button click event
+btn.addEventListener("click", function () {
+    let value = input.value.trim();
 
-results.addEventListener("click",function(){
-    results.style.color="red"
-})
+    if (value === "") {
+        alert("Please type something! 😊");
+        return;
+    }
+    
+    store.push(value);
+    localStorage.setItem("stores", JSON.stringify(store));
+    renderTodos();
+    input.value = "";
+    input.focus();
+});
 
-results.addEventListener("dblclick", function (event) {
-    let value = event.target.textContent
-    event.target.remove()
-    store = store.filter(function (items) {
-        return items !== value
-    })
-    localStorage.setItem("stores", JSON.stringify(store))
-})
+// Delete todo on click
+results.addEventListener("click", function (event) {
+    if (event.target.classList.contains("todo-delete")) {
+        let value = event.target.parentElement.querySelector(".todo-text").textContent;
+        store = store.filter(function (items) {
+            return items !== value;
+        });
+        localStorage.setItem("stores", JSON.stringify(store));
+        renderTodos();
+    }
+});
 
+// Enter key to add
 input.addEventListener("keypress", function (e) {
     if (e.key === "Enter") {
-        btn.click()
+        btn.click();
     }
-})
+});
